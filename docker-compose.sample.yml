@@ -1,0 +1,40 @@
+version: '3.3'
+volumes:
+  config:
+services:
+  rsyncer:
+    build: .
+    depends_on:
+     - gdfuse
+    volumes:
+     - type: bind
+       source: ./gdrive
+       target: /mnt/gdrive
+     #- type: bind
+       #source: /path/to/some/where
+       #target: /mnt/usr
+    user: '1000'
+    #command:
+     #- /mnt/usr # src_path
+     #- /mnt/gdrive/usrpatch # patch_path
+     #- /mnt/gdrive/usr # des_path
+  gdfuse:
+    image: mitcdh/google-drive-ocamlfuse
+    #restart: always
+    env_file: .env
+    security_opt:
+     - apparmor:unconfined
+    cap_add:
+     - mknod
+     - sys_admin
+    devices:
+     - /dev/fuse
+    volumes:
+     - type: bind
+       source: ./gdrive
+       target: /mnt/gdrive
+       bind:
+         propagation: shared # supported after 3.3
+     - type: volume
+       source: config
+       target: /config

@@ -1,3 +1,7 @@
-run.log
-run.log.last
+log/rsyncer.log
+log/rsyncer.log.last
 
+.env
+gdrive
+
+docker-compose.yml
