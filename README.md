@@ -1,6 +1,6 @@
 # rsyncer with gdfuse
 
-## rsyncer
+## `rsyncer.sh`
 
 ```
 # Usage: path/to/this/script.sh src_path patch_path des_path [log_path]
@@ -18,6 +18,7 @@
 ```sh
 cp docker-compose.sample.yml docker-compose.yml
 vim docker-compose.yml
+chmod 777 ./log
 docker-compose build
 ```
 
@@ -28,6 +29,7 @@ using https://github.com/mitcdh/docker-google-drive-ocamlfuse with docker-compos
 ```sh
 cp .env.sample .env
 vim .env
+chown 1000:1000 ./gdrive
 docker-compose up gdfuse
 ```
 
@@ -38,6 +40,19 @@ docker-compose kill
 docker-compose down -v
 ```
 
-## rsyncer and gdfuse
+## rsyncer and gdfuse in crontab
 
-pending
+ensure cron service is enabled and running:
+
+```sh
+pacman -S cronie # archlinux
+systemctl enable cronie
+systemctl start cronie
+```
+
+```sh
+crontab -e
+
+# For crontab that runs every Monday AM 1:10:
+# 10 1 * * 1 path/to/run-docker-rsyncer.sh
+```

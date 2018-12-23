@@ -13,6 +13,9 @@ services:
      #- type: bind
        #source: /path/to/some/where
        #target: /mnt/usr
+     - type: bind
+       source: ./log
+       target: /log
     user: '1000'
     #command:
      #- /mnt/usr # src_path
